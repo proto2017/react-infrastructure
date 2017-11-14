@@ -5,6 +5,28 @@ const ROOT_PATH = __dirname;
 
 const env = process.env.NODE_ENV === 'production';
 console.log("当前运行环境", process.env.NODE_ENV);
+
+let plugins = [
+    new webpack.optimize.CommonsChunkPlugin({
+        name: 'vendor'
+    }),
+    new webpack.DefinePlugin({
+        // 定义全局变量
+        'process.env':{
+            'NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+        }
+    }),
+];
+
+if (env) {
+    plugins.push(new ExtractTextPlugin("style.css"), new webpack.BannerPlugin('版权所有，翻版必究'), new webpack.optimize.UglifyJsPlugin({
+        sourceMap: true,
+        comments: false
+    }))
+} else {
+    plugins.push(new webpack.HotModuleReplacementPlugin())
+}
+
 module.exports = {
     devtool: env ? 'source-map' : 'eval-source-map', //
     entry: {
@@ -53,27 +75,7 @@ module.exports = {
             }
         ]
     },
-    plugins: [
-        new webpack.BannerPlugin('版权所有，翻版必究'),
-        new webpack.optimize.UglifyJsPlugin({
-            sourceMap: true,
-            comments: false
-        }),
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.optimize.CommonsChunkPlugin({
-            name: 'vendor',
-            minChunks: Infinity,
-            // children: true
-        }),
-        new webpack.DefinePlugin({
-            // 定义全局变量
-            'process.env':{
-                'NODE_ENV': JSON.stringify(process.env.NODE_ENV)
-            }
-        }),
-        new ExtractTextPlugin("style.css")
-    ],
-
+    plugins,
     devServer: {
         historyApiFallback: true,
         inline: true,

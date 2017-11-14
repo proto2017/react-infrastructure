@@ -1,11 +1,10 @@
 import React from 'react';
 import styles from './home.less';
-import {test} from '../utils';
+import Content from '../components/Home/Content';
 const Home = () => {
-    console.log(test())
     return (
         <div className={styles.root}>
-            home66
+            <Content />
         </div>
     )
 }
