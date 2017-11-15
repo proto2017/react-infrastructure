@@ -1,18 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import 'babel-polyfill';
 import Routes from './routes';
 import { AppContainer } from 'react-hot-loader';
-
+import configureStore from './store';
+const store = configureStore();
 const render = Component => {
     ReactDOM.render(
         <AppContainer>
-            <Component />
+            <Component store={store}/>
         </AppContainer>,
         document.getElementById("root")
     )
 }                                                    
 render(Routes)    
 if (module.hot) {
-    console.log("hot");
     module.hot.accept('./routes', () => { render(Routes) })
-  }
+  } 

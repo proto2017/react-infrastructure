@@ -2,7 +2,6 @@ const path = require("path");
 const webpack = require("webpack");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const ROOT_PATH = __dirname;
-
 const env = process.env.NODE_ENV === 'production';
 console.log("当前运行环境", process.env.NODE_ENV);
 
@@ -19,10 +18,13 @@ let plugins = [
 ];
 
 if (env) {
-    plugins.push(new ExtractTextPlugin("style.css"), new webpack.BannerPlugin('版权所有，翻版必究'), new webpack.optimize.UglifyJsPlugin({
-        sourceMap: true,
-        comments: false
-    }))
+    plugins.push(
+        new ExtractTextPlugin("style.css"),
+        new webpack.BannerPlugin('版权所有，翻版必究'),
+        new webpack.optimize.UglifyJsPlugin({
+            sourceMap: true,
+            comments: false
+        }))
 } else {
     plugins.push(new webpack.HotModuleReplacementPlugin())
 }
