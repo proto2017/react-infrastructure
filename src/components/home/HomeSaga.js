@@ -3,11 +3,10 @@ import {takeEvery,delay} from 'redux-saga'
 import * as homeRedux from './HomeRedux';
 
 
-
 export function* watch() {
     while(true) {
         yield take(homeRedux.HOME_ADD);
-        yield put(homeRedux.addCount);
+        yield put(homeRedux.addCount());
     }
 }
 export function* test() {
